@@ -9,4 +9,6 @@ public class JenkinsTest {
     public String test1(){
         return "Hello World";
     }
+
+    //CI TEST
 }
