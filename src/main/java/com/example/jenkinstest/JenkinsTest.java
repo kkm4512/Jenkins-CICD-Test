@@ -10,5 +10,5 @@ public class JenkinsTest {
         return "Hello World";
     }
 
-    //CI TEST
+
 }
