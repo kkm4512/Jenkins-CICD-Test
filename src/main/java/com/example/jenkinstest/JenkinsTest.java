@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-
+// TEST
 public class JenkinsTest {
     private final RedisTemplate<String, String> redisTemplate;
 
