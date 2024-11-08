@@ -1,7 +1,8 @@
-FROM jenkins/jenkins:jdk17
+FROM openjdk:17.0-slim
+WORKDIR /app
 
-USER root
-RUN apt-get update && \
-    apt-get install -y git openssh-client docker.io  # Git 및 Docker CLI 설치
+# 빌더 이미지에서 jar 파일만 복사
+COPY /build/libs/*-SNAPSHOT.jar ./app.jar
+CMD ["java", "-jar", "app.jar"]
 
-USER jenkins
+EXPOSE 8080

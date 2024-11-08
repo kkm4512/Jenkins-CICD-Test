@@ -1,9 +1,7 @@
 services:
   jenkins:
     container_name: jenkins_container
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jenkins/jenkins:jdk17
     restart: unless-stopped
     user: root
     ports:
@@ -13,12 +11,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
+    command: >
+      /bin/bash -c "apt-get update && 
+                    apt-get install -y git openssh-client docker.io &&
+                    exec /usr/local/bin/jenkins.sh"
 
   mysql:
     container_name: mysql_container
     image: mysql
     ports:
-      - 3307:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: '!@Skdud340'
       MYSQL_DATABASE: jenkinsdb
@@ -30,7 +32,7 @@ services:
     container_name: redis_container
     image: redis
     ports:
-      - 6380:6379
+      - 6379:6379
     restart: always
     volumes:
       - redis_data:/data
@@ -39,10 +41,21 @@ services:
     container_name: mongodb_container
     image: mongo
     ports:
-      - 27018:27017
+      - 27017:27017
     restart: always
     volumes:
       - mongo_data:/data/db
+
+  backend:
+    container_name: backend_container
+    build: .
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - mysql
+      - redis
+      - mongodb
 
 volumes:
   jenkins_data:
