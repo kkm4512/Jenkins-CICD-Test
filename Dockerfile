@@ -1,8 +1,6 @@
-FROM openjdk:17.0-slim
-WORKDIR /app
+FROM jenkins/jenkins:jdk17
 
-# 빌더 이미지에서 jar 파일만 복사
-COPY /build/libs/*-SNAPSHOT.jar ./app.jar
-CMD ["java", "-jar", "app.jar"]
+USER root
+RUN apt-get update && \
+    apt-get install -y docker.io  # Docker CLI 설치
 
-EXPOSE 8080

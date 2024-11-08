@@ -1,4 +1,19 @@
 services:
+  jenkins:
+    container_name: jenkins_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    user: root
+    ports:
+      - 7777:8080
+    volumes:
+      - jenkins_data:/var/jenkins_home  # Jenkins 데이터 볼륨
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker 데몬 소켓 공유
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock  # Docker 소켓을 환경 변수로 설정
+
   mysql:
     container_name: mysql_container
     image: mysql
@@ -7,13 +22,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: '!@Skdud340'
       MYSQL_DATABASE: jenkinsdb
+    volumes:
+      - mysql_data:/var/lib/mysql  # MySQL 데이터 디렉토리 볼륨
     restart: always
 
-  backend:
-    container_name: test_container
-    build: .
-    ports:
-      - 8081:8080
-    depends_on:
-      - mysql
-    restart: always
+volumes:
+  jenkins_data:
+  mysql_data:
