@@ -9,10 +9,10 @@ services:
     ports:
       - 7777:8080
     volumes:
-      - jenkins_data:/var/jenkins_home  # Jenkins 데이터 볼륨
-      - /var/run/docker.sock:/var/run/docker.sock  # Docker 데몬 소켓 공유
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DOCKER_HOST=unix:///var/run/docker.sock  # Docker 소켓을 환경 변수로 설정
+      - DOCKER_HOST=unix:///var/run/docker.sock
 
   mysql:
     container_name: mysql_container
@@ -23,9 +23,29 @@ services:
       MYSQL_ROOT_PASSWORD: '!@Skdud340'
       MYSQL_DATABASE: jenkinsdb
     volumes:
-      - mysql_data:/var/lib/mysql  # MySQL 데이터 디렉토리 볼륨
+      - mysql_data:/var/lib/mysql
     restart: always
+
+  redis:
+    container_name: redis_container
+    image: redis
+    ports:
+      - 6380:6379
+    restart: always
+    volumes:
+      - redis_data:/data
+
+  mongodb:
+    container_name: mongodb_container
+    image: mongo
+    ports:
+      - 27018:27017
+    restart: always
+    volumes:
+      - mongo_data:/data/db
 
 volumes:
   jenkins_data:
   mysql_data:
+  redis_data:
+  mongo_data:
