@@ -20,7 +20,7 @@ services:
     container_name: mysql_container
     image: mysql
     ports:
-      - 3306:3306
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: '!@Skdud340'
       MYSQL_DATABASE: jenkinsdb
@@ -32,7 +32,7 @@ services:
     container_name: redis_container
     image: redis
     ports:
-      - 6379:6379
+      - 6380:6379
     restart: always
     volumes:
       - redis_data:/data
@@ -41,7 +41,7 @@ services:
     container_name: mongodb_container
     image: mongo
     ports:
-      - 27017:27017
+      - 27018:27017
     restart: always
     volumes:
       - mongo_data:/data/db
@@ -50,7 +50,7 @@ services:
     container_name: backend_container
     build: .
     ports:
-      - 8080:8080
+      - 8081:8080
     restart: always
     depends_on:
       - mysql
