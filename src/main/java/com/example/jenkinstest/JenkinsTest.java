@@ -14,5 +14,10 @@ public class JenkinsTest {
         return "Hello World";
     }
 
+    @GetMapping("/test1")
+    public String test1(){
+        return "안녕하십니까 ~";
+    }
+
 
 }
